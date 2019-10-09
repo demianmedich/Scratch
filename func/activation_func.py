@@ -12,8 +12,9 @@ def relu(x):
 
 
 def softmax(x, axis=-1):
-    assert isinstance(x, np.ndarray), "x should be one of the instance of numpy.ndarray"
-    assert x.ndim == 1 or x.ndim == 2, "ndim value of x should be 1 or 2 but {}".format(x.ndim)
+    assert isinstance(x,
+                      np.ndarray), "x should be one of the instance of numpy.ndarray"
+    assert x.ndim == 2, "ndim value of x should be 2 but {}".format(x.ndim)
 
     x = x - np.max(x, axis=axis, keepdims=True)
     exp = np.exp(x)

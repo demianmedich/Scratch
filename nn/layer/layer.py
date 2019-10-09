@@ -118,3 +118,45 @@ class Softmax(BaseLayer):
         sum_dx = np.sum(dx, axis=1, keepdims=True)
         dx -= self.output * sum_dx
         return dx
+
+
+class BaseLossLayer(metaclass=ABCMeta):
+    def __init__(self):
+        self.output = None
+        self.label = None
+        self.loss = None
+
+    @abstractmethod
+    def forward(self, x, t):
+        pass
+
+    @abstractmethod
+    def backward(self, dout=1):
+        pass
+
+
+class SoftmaxWithLoss(BaseLossLayer):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x, t):
+        self.output = softmax(x, axis=-1)
+        self.label = t
+        if t.size == self.output.size:
+            # t가 one-hot vector 인 경우에 label 값으로 변경해준다.
+            # 변경되면 1d array로 바뀌며, 이렇게 하는 이유는 backprop 에서 계산량을
+            # 줄이기 위해서이다.
+            self.label = self.output.argmax(axis=-1)
+        self.loss = cross_entropy(self.output, self.label)
+        return self.loss
+
+    def backward(self, dout=1):
+        batch_size = self.label.shape[0]
+        # cross entropy 와 같이 미분하면 y1 - t1, y2 - t2 같은 식으로 기울기가 구해진다
+        # t는 one-hot vector 라서 실제 정답 레이블인 경우만 계산한다.
+        dx = self.output.copy()
+        dx[np.arange(batch_size), self.label] -= 1
+        dx *= dout
+        dx /= batch_size  # batch 사이즈로 나누는 이유는..??
+        return dx
