@@ -5,12 +5,10 @@ import numpy as np
 from abc import ABCMeta
 from abc import abstractmethod
 
-from func import sigmoid
-from func import relu
-from func import softmax
-from func import cross_entropy
-from nn.init import Normal
-from nn.init import Zeros
+from scratch.func import sigmoid
+from scratch.func import relu
+from scratch.func import softmax
+from scratch.func import cross_entropy
 
 
 class BaseLayer(metaclass=ABCMeta):

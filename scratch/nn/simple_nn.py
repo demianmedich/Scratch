@@ -2,9 +2,9 @@
 
 import numpy as np
 
-from nn.layer import Affine
-from nn.layer import Sigmoid
-from nn.layer import SoftmaxWithLoss
+from scratch.nn.layer import Affine
+from scratch.nn.layer import Sigmoid
+from scratch.nn.layer import SoftmaxWithLoss
 
 
 class TwoLayerNet:

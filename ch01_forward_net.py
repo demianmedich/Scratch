@@ -1,7 +1,7 @@
 # coding: utf-8
 import numpy as np
-from nn.simple_nn import TwoLayerNet
-from func import cross_entropy
+from scratch.nn.simple_nn import TwoLayerNet
+from scratch.func import cross_entropy
 
 
 if __name__ == '__main__':
